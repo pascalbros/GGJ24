@@ -15,6 +15,7 @@ public class GuardController: MonoBehaviour {
     void Start() {
         fovController.onTargetStatusChanged += OnPlayerSighted;
         animator = GetComponent<Animator>();
+        GameManager.Instance.guards.Add(this);
     }
 
     private void Update() {
@@ -37,5 +38,14 @@ public class GuardController: MonoBehaviour {
         if (inputValue.magnitude == 0) { return; }
         transform.DOKill();
         transform.DORotateQuaternion(Quaternion.LookRotation(inputValue), 0.2f);
+    }
+
+    private void GoTo(Vector3 position) {
+        var delta = position - transform.position;
+        Move(new Vector2(delta.x, delta.z).normalized);
+    }
+
+    public void OnHiccupNearby(Vector3 position) {
+        GoTo(position);
     }
 }

@@ -8,11 +8,22 @@ public class PlayerController: MonoBehaviour {
     public float movementBlendSpeed = 1f;
     public Animator animator;
     public HiccupBar hiccupBar;
+    public GameObject hiccupArea;
 
     private float currentHiccupTimer = 0f;
     private CharacterController cc;
     private Vector2 movementInput;
     private Vector2 targetMovementInput;
+
+    public static PlayerController Instance { get; private set; }
+
+    private void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(this);
+        } else {
+            Instance = this;
+        }
+    }
 
     void Start() {
         currentHiccupTimer = hiccupTimer;
@@ -40,7 +51,7 @@ public class PlayerController: MonoBehaviour {
         } else {
             Move(movementInput);
         }
-        SetVelocity(Mathf.Clamp01(movementInput.magnitude) / 1.1f);
+        SetVelocity(Mathf.Clamp01(movementInput.magnitude) / 1.3f);
     }
 
     private void SetDrunkedness(float value) {
@@ -58,15 +69,27 @@ public class PlayerController: MonoBehaviour {
     }
 
     private void HandleSob() {
+        if (currentHiccupTimer - Time.deltaTime < 2 && currentHiccupTimer >= 2) {
+            var animation = DOTween.Sequence();
+            for (int i = 0; i < 6; i++) {
+                animation.AppendCallback(() => hiccupArea.SetActive(true));
+                animation.AppendInterval(0.2f);
+                animation.AppendCallback(() => hiccupArea.SetActive(false));
+                animation.AppendInterval(0.05f);
+            }
+            animation.AppendCallback(() => hiccupArea.SetActive(true));
+            animation.Play();
+        }
         currentHiccupTimer -= Time.deltaTime;
         if (currentHiccupTimer <= 0) {
-            DoSob();
+            OnHiccup();
             currentHiccupTimer = hiccupTimer;
         }
-        hiccupBar.SetPercentage(currentHiccupTimer / hiccupTimer);
+        HiccupManager.Instance.hiccupBar.SetPercentage(currentHiccupTimer / hiccupTimer);
     }
 
-    private void DoSob() {
-
+    private void OnHiccup() {
+        HiccupManager.Instance.OnHiccup();
+        hiccupArea.SetActive(false);
     }
 }
