@@ -1,17 +1,32 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class ExclamationMarkFloating : MonoBehaviour
-{
-    public float floatDistance = 0.2f;
-    public float floatDuration = 1f;
+public class ExclamationMarkFloating: MonoBehaviour {
+    public float animationDuration = 1f;
 
-    void Start() => FloatUpDown();
+    MeshRenderer meshRenderer;
 
-    void FloatUpDown()
-    {
-        transform.DOMoveY(transform.position.y + floatDistance, floatDuration)
-            .SetEase(Ease.InOutQuad)
-            .SetLoops(-1, LoopType.Yoyo); // Infinite loop, back and forth motion
+    void Start() {
+        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer.enabled = false;
+    }
+
+    void FloatUpDown() {
+        transform.DOMoveY(transform.position.y + 0.2f, 1)
+            .SetEase(Ease.InOutCubic)
+            .SetLoops(4, LoopType.Yoyo)
+            .OnComplete(() => Dismiss());
+    }
+
+    public void Appear() {
+        meshRenderer.enabled = true;
+        transform.localScale = Vector3.zero;
+        transform.DOScale(-0.08459936f, animationDuration)
+            .SetEase(Ease.OutBounce).OnComplete(() => FloatUpDown());
+    }
+
+    public void Dismiss() {
+        transform.DOScale(0, animationDuration)
+            .SetEase(Ease.InCubic).OnComplete(() => meshRenderer.enabled = false);
     }
 }

@@ -9,6 +9,7 @@ public class GuardController: MonoBehaviour {
     public Color playerInRangeColor;
     public float fovAnimationDuration = 0.2f;
     public Vector2 input;
+    public ExclamationMarkFloating exclamationMark;
 
     private Animator animator;
 
@@ -47,5 +48,6 @@ public class GuardController: MonoBehaviour {
 
     public void OnHiccupNearby(Vector3 position) {
         GoTo(position);
+        exclamationMark.Appear();
     }
 }
