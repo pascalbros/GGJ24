@@ -12,9 +12,9 @@ public class ExclamationMarkFloating: MonoBehaviour {
     }
 
     void FloatUpDown() {
-        transform.DOMoveY(transform.position.y + 0.2f, 1)
+        transform.DOMoveY(transform.position.y + 0.15f, 1)
             .SetEase(Ease.InOutCubic)
-            .SetLoops(4, LoopType.Yoyo)
+            .SetLoops(3, LoopType.Yoyo)
             .OnComplete(() => Dismiss());
     }
 

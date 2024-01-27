@@ -12,8 +12,10 @@ public class GuardController: MonoBehaviour {
     public ExclamationMarkFloating exclamationMark;
 
     private Animator animator;
+    private Outline outline;
 
     void Start() {
+        outline = GetComponent<Outline>();
         fovController.onTargetStatusChanged += OnPlayerSighted;
         animator = GetComponent<Animator>();
         GameManager.Instance.guards.Add(this);
@@ -49,5 +51,9 @@ public class GuardController: MonoBehaviour {
     public void OnHiccupNearby(Vector3 position) {
         GoTo(position);
         exclamationMark.Appear();
+    }
+
+    public void PlayerIsNearby(bool isNearby) {
+        outline.enabled = isNearby;
     }
 }

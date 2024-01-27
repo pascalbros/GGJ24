@@ -8,7 +8,6 @@ public class PlayerController: MonoBehaviour {
     public float movementBlendSpeed = 1f;
     public Animator animator;
     public HiccupBar hiccupBar;
-    public GameObject hiccupArea;
 
     private float currentHiccupTimer = 0f;
     private CharacterController cc;
@@ -69,17 +68,6 @@ public class PlayerController: MonoBehaviour {
     }
 
     private void HandleSob() {
-        if (currentHiccupTimer - Time.deltaTime < 2 && currentHiccupTimer >= 2) {
-            var animation = DOTween.Sequence();
-            for (int i = 0; i < 6; i++) {
-                animation.AppendCallback(() => hiccupArea.SetActive(true));
-                animation.AppendInterval(0.2f);
-                animation.AppendCallback(() => hiccupArea.SetActive(false));
-                animation.AppendInterval(0.05f);
-            }
-            animation.AppendCallback(() => hiccupArea.SetActive(true));
-            animation.Play();
-        }
         currentHiccupTimer -= Time.deltaTime;
         if (currentHiccupTimer <= 0) {
             OnHiccup();
@@ -90,6 +78,5 @@ public class PlayerController: MonoBehaviour {
 
     private void OnHiccup() {
         HiccupManager.Instance.OnHiccup();
-        hiccupArea.SetActive(false);
     }
 }

@@ -17,6 +17,13 @@ public class HiccupManager: MonoBehaviour {
         }
     }
 
+    private void FixedUpdate() {
+        var playerPosition = PlayerController.Instance.transform.position;
+        foreach (var guard in GameManager.Instance.guards) {
+            guard.PlayerIsNearby(Vector3.Distance(playerPosition, guard.transform.position) <= maxHiccupGuardDistance);
+        }
+    }
+
     public void OnHiccup() {
         var playerPosition = PlayerController.Instance.transform.position;
         foreach (var guard in GameManager.Instance.guards) {
