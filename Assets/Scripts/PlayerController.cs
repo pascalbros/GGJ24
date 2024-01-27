@@ -4,14 +4,16 @@ using DG.Tweening;
 
 public class PlayerController: MonoBehaviour {
 
-    public float movementSpeed = 10f;
-    public float rotationSpeed = 9f;
+    public float movementBlendSpeed = 1f;
+    public Animator animator;
 
     private CharacterController cc;
     private Vector2 movementInput;
+    private Vector2 targetMovementInput;
 
     void Start() {
         cc = GetComponent<CharacterController>();
+        SetDrunkedness(1.0f);
     }
 
     // Update is called once per frame
@@ -24,21 +26,29 @@ public class PlayerController: MonoBehaviour {
     }
 
     public void Move(InputAction.CallbackContext context) {
-        movementInput = context.ReadValue<Vector2>();
+        targetMovementInput = context.ReadValue<Vector2>();
     }
 
     private void HandleInput() {
-        if (movementInput.magnitude == 0f) {
+        movementInput = Vector3.Lerp(movementInput, targetMovementInput, Time.deltaTime * movementBlendSpeed);
+        if (Mathf.Abs(movementInput.magnitude) < 0.02f) {
             //Idle
         } else {
-            Move(movementInput, movementSpeed);
+            Move(movementInput);
         }
+        SetVelocity(Mathf.Clamp01(movementInput.magnitude) / 1.2f);
     }
 
-    private void Move(Vector2 movement, float speed) {
-        var input = speed * Time.deltaTime * movement;
-        var inputValue = new Vector3(input.x, 0, input.y);
-        cc.Move(inputValue);
+    private void SetDrunkedness(float value) {
+        animator.SetFloat("drunkedness", Mathf.Clamp01(value));
+    }
+
+    private void SetVelocity(float velocity) {
+        animator.SetFloat("velocity", velocity);
+    }
+
+    private void Move(Vector2 movement) {
+        var inputValue = new Vector3(movement.x, 0, movement.y);
         transform.DOKill();
         transform.DORotateQuaternion(Quaternion.LookRotation(inputValue), 0.2f);
     }
