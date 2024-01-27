@@ -4,21 +4,25 @@ using DG.Tweening;
 
 public class PlayerController: MonoBehaviour {
 
+    public float hiccupTimer = 5f;
     public float movementBlendSpeed = 1f;
     public Animator animator;
+    public HiccupBar hiccupBar;
 
+    private float currentHiccupTimer = 0f;
     private CharacterController cc;
     private Vector2 movementInput;
     private Vector2 targetMovementInput;
 
     void Start() {
+        currentHiccupTimer = hiccupTimer;
         cc = GetComponent<CharacterController>();
         SetDrunkedness(1.0f);
     }
 
-    // Update is called once per frame
     void Update() {
         HandleInput();
+        HandleSob();
     }
 
     public void Action(InputAction.CallbackContext context) {
@@ -36,7 +40,7 @@ public class PlayerController: MonoBehaviour {
         } else {
             Move(movementInput);
         }
-        SetVelocity(Mathf.Clamp01(movementInput.magnitude) / 1.2f);
+        SetVelocity(Mathf.Clamp01(movementInput.magnitude) / 1.1f);
     }
 
     private void SetDrunkedness(float value) {
@@ -51,5 +55,18 @@ public class PlayerController: MonoBehaviour {
         var inputValue = new Vector3(movement.x, 0, movement.y);
         transform.DOKill();
         transform.DORotateQuaternion(Quaternion.LookRotation(inputValue), 0.2f);
+    }
+
+    private void HandleSob() {
+        currentHiccupTimer -= Time.deltaTime;
+        if (currentHiccupTimer <= 0) {
+            DoSob();
+            currentHiccupTimer = hiccupTimer;
+        }
+        hiccupBar.SetPercentage(currentHiccupTimer / hiccupTimer);
+    }
+
+    private void DoSob() {
+
     }
 }
