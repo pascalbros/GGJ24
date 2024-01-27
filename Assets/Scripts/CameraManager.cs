@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    // Add camera
     [SerializeField] CinemachineVirtualCamera vcam;
 
     private float shakeTimer;
