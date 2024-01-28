@@ -4,16 +4,20 @@ using DG.Tweening;
 
 public class PlayerController: MonoBehaviour {
 
+    enum State {
+        START, IN_GAME, BUSTED, WIN
+    }
+
     public float hiccupTimer = 5f;
     public float movementBlendSpeed = 1f;
     public Animator animator;
     public HiccupBar hiccupBar;
-    public bool invertControls = false;
 
     private float currentHiccupTimer = 0f;
-    private CharacterController cc;
     private Vector2 movementInput;
     private Vector2 targetMovementInput;
+    private State state = State.START;
+    private float lastTimeBurp = 0;
 
     public static PlayerController Instance { get; private set; }
 
@@ -27,21 +31,28 @@ public class PlayerController: MonoBehaviour {
 
     void Start() {
         currentHiccupTimer = hiccupTimer;
-        cc = GetComponent<CharacterController>();
         SetDrunkedness(1.0f);
+        state = State.IN_GAME;
     }
 
     void Update() {
-        HandleInput();
-        HandleSob();
+        if (state != State.WIN && state != State.BUSTED) {
+            HandleInput();
+            HandleSob();
+        }
     }
 
     public void Action(InputAction.CallbackContext context) {
-        Debug.Log("Fire!");
+        if (state != State.WIN && state != State.BUSTED) {
+            if (Time.timeSinceLevelLoad - lastTimeBurp > 3) {
+                HiccupManager.Instance.OnBurp();
+                lastTimeBurp = Time.timeSinceLevelLoad;
+            }
+        }
     }
 
     public void Move(InputAction.CallbackContext context) {
-        targetMovementInput = (invertControls ? -1 : 1) * context.ReadValue<Vector2>();
+        targetMovementInput = context.ReadValue<Vector2>();
     }
 
     private void HandleInput() {
@@ -79,5 +90,14 @@ public class PlayerController: MonoBehaviour {
 
     private void OnHiccup() {
         HiccupManager.Instance.OnHiccup();
+    }
+
+    public void OnBusted() {
+        state = State.BUSTED;
+        SetVelocity(0);
+    }
+
+    public void OnWin() {
+        state = State.WIN;
     }
 }
