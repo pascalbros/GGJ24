@@ -91,11 +91,13 @@ public class GuardController: MonoBehaviour {
         var delta = position - transform.position;
         Rotate(new Vector2(delta.x, delta.z).normalized);
         exclamationMark.Appear();
+        AudioManager.Instance.PlaySfx("uh");
     }
 
     public void OnBurpNearby(Vector3 position) {
         GoTo(position);
         exclamationMark.Appear();
+        AudioManager.Instance.PlaySfx("eh");
     }
 
     public void PlayerIsNearby(bool isNearby) {

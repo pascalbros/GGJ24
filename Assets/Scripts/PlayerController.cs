@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class PlayerController: MonoBehaviour {
 
-    enum State {
+    public enum State {
         START, IN_GAME, BUSTED, WIN
     }
 
@@ -16,7 +16,7 @@ public class PlayerController: MonoBehaviour {
     private float currentHiccupTimer = 0f;
     private Vector2 movementInput;
     private Vector2 targetMovementInput;
-    private State state = State.START;
+    public State state = State.START;
     private float lastTimeBurp = 0;
 
     public static PlayerController Instance { get; private set; }
@@ -32,18 +32,17 @@ public class PlayerController: MonoBehaviour {
     void Start() {
         currentHiccupTimer = hiccupTimer;
         SetDrunkedness(1.0f);
-        state = State.IN_GAME;
     }
 
     void Update() {
-        if (state != State.WIN && state != State.BUSTED) {
+        if (state == State.IN_GAME) {
             HandleInput();
             HandleSob();
         }
     }
 
     public void Action(InputAction.CallbackContext context) {
-        if (state != State.WIN && state != State.BUSTED) {
+        if (state == State.IN_GAME) {
             if (Time.timeSinceLevelLoad - lastTimeBurp > 3) {
                 HiccupManager.Instance.OnBurp();
                 lastTimeBurp = Time.timeSinceLevelLoad;
