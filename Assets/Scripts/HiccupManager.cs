@@ -54,7 +54,7 @@ public class HiccupManager: MonoBehaviour {
                 sequence.Play();
             }
         }
-        AudioManager.Instance.PlaySfx("hiccup-1");
+        AudioManager.Instance.PlaySfx("burp-1");
         CameraManager.Instance.ShakeCamera(burpStrength, burpTime);
     }
 }
