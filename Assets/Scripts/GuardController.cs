@@ -36,8 +36,12 @@ public class GuardController: MonoBehaviour {
     }
 
     private void Move(Vector2 movement) {
-        var inputValue = new Vector3(movement.x, 0, movement.y);
         SetVelocity(Mathf.Clamp01(movement.magnitude));
+        Rotate(movement);
+    }
+
+    private void Rotate(Vector2 movement) {
+        var inputValue = new Vector3(movement.x, 0, movement.y);
         if (inputValue.magnitude == 0) { return; }
         transform.DOKill();
         transform.DORotateQuaternion(Quaternion.LookRotation(inputValue), 0.2f);
@@ -45,7 +49,7 @@ public class GuardController: MonoBehaviour {
 
     private void GoTo(Vector3 position) {
         var delta = position - transform.position;
-        Move(new Vector2(delta.x, delta.z).normalized);
+        Rotate(new Vector2(delta.x, delta.z).normalized);
     }
 
     public void OnHiccupNearby(Vector3 position) {

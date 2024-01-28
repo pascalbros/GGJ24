@@ -94,13 +94,17 @@ public class FieldOfViewController: MonoBehaviour {
 
     bool CheckTarget(float globalAngle) {
         Vector3 dir = DirFromAngle(globalAngle, true);
-        return Physics.Raycast(transform.position, dir, out _, viewRadius, targetMask);
+        var obstacle = Physics.Raycast(transform.position, dir, out _, viewRadius, obstaclesMask);
+        var player = Physics.Raycast(transform.position, dir, out _, viewRadius, targetMask);
+        return !obstacle && player;
     }
 
     ViewCastInfo ViewCast(float globalAngle) {
         Vector3 dir = DirFromAngle(globalAngle, true);
         if (Physics.Raycast(transform.position, dir, out RaycastHit hit, viewRadius, obstaclesMask)) {
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+        } else if (Physics.Raycast(transform.position, dir, out RaycastHit hit1, viewRadius, targetMask)) {
+            return new ViewCastInfo(true, hit1.point, hit1.distance, globalAngle);
         } else {
             return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
         }

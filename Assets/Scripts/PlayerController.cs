@@ -8,6 +8,7 @@ public class PlayerController: MonoBehaviour {
     public float movementBlendSpeed = 1f;
     public Animator animator;
     public HiccupBar hiccupBar;
+    public bool invertControls = false;
 
     private float currentHiccupTimer = 0f;
     private CharacterController cc;
@@ -40,7 +41,7 @@ public class PlayerController: MonoBehaviour {
     }
 
     public void Move(InputAction.CallbackContext context) {
-        targetMovementInput = context.ReadValue<Vector2>();
+        targetMovementInput = (invertControls ? -1 : 1) * context.ReadValue<Vector2>();
     }
 
     private void HandleInput() {
@@ -50,7 +51,7 @@ public class PlayerController: MonoBehaviour {
         } else {
             Move(movementInput);
         }
-        SetVelocity(Mathf.Clamp01(movementInput.magnitude) / 1.3f);
+        SetVelocity(Mathf.Clamp01(movementInput.magnitude) / 1.7f);
     }
 
     private void SetDrunkedness(float value) {

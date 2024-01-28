@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class HiccupManager: MonoBehaviour {
 
@@ -28,8 +29,12 @@ public class HiccupManager: MonoBehaviour {
         var playerPosition = PlayerController.Instance.transform.position;
         foreach (var guard in GameManager.Instance.guards) {
             if (Vector3.Distance(playerPosition, guard.transform.position) <= maxHiccupGuardDistance) {
-                guard.OnHiccupNearby(playerPosition);
+                var sequence = DOTween.Sequence();
+                sequence.AppendInterval(0.35f);
+                sequence.AppendCallback(() => guard.OnHiccupNearby(playerPosition));
+                sequence.Play();
             }
         }
+        AudioManager.Instance.PlaySfx("hiccup-1");
     }
 }
