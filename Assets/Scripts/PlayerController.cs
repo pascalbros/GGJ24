@@ -84,7 +84,7 @@ public class PlayerController: MonoBehaviour {
             OnHiccup();
             currentHiccupTimer = hiccupTimer;
         }
-        HiccupManager.Instance.hiccupBar.SetPercentage(currentHiccupTimer / hiccupTimer);
+        HiccupManager.Instance.hiccupBar.SetPercentage(Mathf.Clamp01(currentHiccupTimer / hiccupTimer));
     }
 
     private void OnHiccup() {
@@ -98,5 +98,9 @@ public class PlayerController: MonoBehaviour {
 
     public void OnWin() {
         state = State.WIN;
+    }
+
+    public void OnCollectible() {
+        currentHiccupTimer += hiccupTimer;
     }
 }
