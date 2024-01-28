@@ -9,6 +9,8 @@ public class HiccupManager: MonoBehaviour {
 
     public HiccupBar hiccupBar;
     public float maxHiccupGuardDistance;
+    [SerializeField] float hiccupStrength = 1f;
+    [SerializeField] float hiccupTime = 0.3f;
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -36,5 +38,6 @@ public class HiccupManager: MonoBehaviour {
             }
         }
         AudioManager.Instance.PlaySfx("hiccup-1");
+        CameraManager.Instance.ShakeCamera(hiccupStrength, hiccupTime);
     }
 }
