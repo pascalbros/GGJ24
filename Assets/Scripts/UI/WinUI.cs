@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class WinUI: MonoBehaviour {
 
+    public string nextSceneName;
     public CanvasGroup canvas;
     public TextMeshProUGUI continueText;
 
@@ -15,8 +16,7 @@ public class WinUI: MonoBehaviour {
         canvas.DOFade(1f, 1f).OnComplete(() => {
             continueText.DOFade(1f, 1f).OnComplete(() => {
                 InputSystem.onAnyButtonPress.CallOnce(ctrl => {
-                    Scene scene = SceneManager.GetActiveScene();
-                    GameManager.Instance.FadeOut(scene.name);
+                    GameManager.Instance.FadeOut(nextSceneName);
                 });
             });
         });

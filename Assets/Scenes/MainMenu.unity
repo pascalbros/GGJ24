@@ -180,7 +180,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "DON'T DRINK \nAND STEAL"
+  m_text: 'THE DRUNK
+
+    HEIST'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17354ca18c03141988f7799cc13ea650, type: 2}
   m_sharedMaterial: {fileID: -3612693056524724901, guid: 17354ca18c03141988f7799cc13ea650,
