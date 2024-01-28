@@ -1,8 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour
-{
+public class CameraManager: MonoBehaviour {
     [SerializeField] CinemachineVirtualCamera vcam;
 
     private float shakeTimer;
@@ -11,22 +10,16 @@ public class CameraManager : MonoBehaviour
 
     public static CameraManager Instance { get; private set; }
 
-    void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
+    void Awake() {
+        if (Instance != null && Instance != this) {
             Destroy(this);
-        }
-        else
-        {
+        } else {
             Instance = this;
         }
     }
 
-    void Update()
-    {
-        if (shakeTimer > 0)
-        {
+    void Update() {
+        if (shakeTimer > 0) {
             shakeTimer -= Time.deltaTime;
             CinemachineBasicMultiChannelPerlin cameraNoise =
                 vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
@@ -35,8 +28,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    public void ShakeCamera(float amplitude, float time)
-    {
+    public void ShakeCamera(float amplitude, float time) {
         CinemachineBasicMultiChannelPerlin cameraNoise =
                 vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cameraNoise.m_AmplitudeGain = amplitude;
