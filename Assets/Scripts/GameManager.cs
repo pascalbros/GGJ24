@@ -31,6 +31,7 @@ public class GameManager: MonoBehaviour {
     }
 
     public void OnPlayerWin() {
+        DisableGuards();
         PlayerController.Instance.OnWin();
         winUI.Appear();
     }
