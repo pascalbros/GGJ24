@@ -10,9 +10,8 @@ public class PlayerController: MonoBehaviour {
 
     public float hiccupTimer = 5f;
     public float movementBlendSpeed = 1f;
-    public Animator animator;
-    public HiccupBar hiccupBar;
 
+    private Animator animator;
     private float currentHiccupTimer = 0f;
     private Vector2 movementInput;
     private Vector2 targetMovementInput;
@@ -30,6 +29,7 @@ public class PlayerController: MonoBehaviour {
     }
 
     void Start() {
+        animator = GetComponent<Animator>();
         currentHiccupTimer = hiccupTimer;
         SetDrunkedness(1.0f);
     }

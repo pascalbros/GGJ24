@@ -432,26 +432,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSounds:
-  - name: burp
-    clip: {fileID: 8300000, guid: 8d7366994bdfd438fa44f17a33c1dd66, type: 3}
-  - name: hiccup
+  - name: main-theme
+    clip: {fileID: 8300000, guid: cb5a8938a4aa74265997e87a7fecbbdc, type: 3}
+  ambienceSounds:
+  - name: noise
+    clip: {fileID: 8300000, guid: e8326d821fd3f4efea73e5d7a80e1d1e, type: 3}
+  sfxSounds:
+  - name: hiccup-1
     clip: {fileID: 8300000, guid: 68f4e437988684ef78e0a352d2a15990, type: 3}
-  - name: hard_footstep
-    clip: {fileID: 8300000, guid: 9fac2bcc7d77c45f3ba8a6d8bf6a9753, type: 3}
-  - name: soft_footstep
-    clip: {fileID: 8300000, guid: 63726e314202945579a4162295150704, type: 3}
-  - name: alert
-    clip: {fileID: 8300000, guid: d25bc7a6da03e404cb78a62c7474b01a, type: 3}
+  - name: burp-1
+    clip: {fileID: 8300000, guid: 8d7366994bdfd438fa44f17a33c1dd66, type: 3}
   - name: uh
     clip: {fileID: 8300000, guid: 33d84a49354d94877be0e6e33a372ff5, type: 3}
   - name: eh
     clip: {fileID: 8300000, guid: b95eaa22da3a74fe0bae80754cc86664, type: 3}
   - name: glug
     clip: {fileID: 8300000, guid: 5915585e1cd374608b1c22bfc7219320, type: 3}
-  ambienceSounds:
-  - name: noise
-    clip: {fileID: 8300000, guid: e8326d821fd3f4efea73e5d7a80e1d1e, type: 3}
-  sfxSounds: []
   musicSource: {fileID: 1190801003783714906}
   ambienceSource: {fileID: 4594273427091886302}
   sfxSource: {fileID: 4093076689095563382}
