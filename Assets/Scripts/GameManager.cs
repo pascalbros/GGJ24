@@ -8,6 +8,7 @@ public class GameManager: MonoBehaviour {
     public List<GuardController> guards;
     public BustedUI bustedUI;
     public WinUI winUI;
+    public GameObject fade;
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -32,5 +33,13 @@ public class GameManager: MonoBehaviour {
     public void OnPlayerWin() {
         PlayerController.Instance.OnWin();
         winUI.Appear();
+    }
+
+    public void FadeOut(string levelName) {
+        var obj = Instantiate(fade);
+        var fadeObj = obj.GetComponent<Fade>();
+        fadeObj.levelName = levelName;
+        fadeObj.isFadeIn = false;
+        obj.SetActive(true);
     }
 }

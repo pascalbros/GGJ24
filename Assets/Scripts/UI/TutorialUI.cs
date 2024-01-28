@@ -13,6 +13,9 @@ public class TutorialUI: MonoBehaviour {
         if (!shown) {
             Appear();
             shown = true;
+        } else {
+            PlayerController.Instance.state = PlayerController.State.IN_GAME;
+            gameObject.SetActive(false);
         }
     }
 

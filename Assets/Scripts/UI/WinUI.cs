@@ -16,7 +16,7 @@ public class WinUI: MonoBehaviour {
             continueText.DOFade(1f, 1f).OnComplete(() => {
                 InputSystem.onAnyButtonPress.CallOnce(ctrl => {
                     Scene scene = SceneManager.GetActiveScene();
-                    SceneManager.LoadScene(scene.name);
+                    GameManager.Instance.FadeOut(scene.name);
                 });
             });
         });
