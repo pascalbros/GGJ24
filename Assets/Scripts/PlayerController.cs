@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class PlayerController: MonoBehaviour {
 
@@ -32,6 +33,9 @@ public class PlayerController: MonoBehaviour {
         animator = GetComponent<Animator>();
         currentHiccupTimer = hiccupTimer;
         SetDrunkedness(1.0f);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        GetComponent<Outline>().OutlineMode = Outline.Mode.OutlineHidden; 
+#endif
     }
 
     void Update() {
@@ -98,6 +102,9 @@ public class PlayerController: MonoBehaviour {
 
     public void OnWin() {
         state = State.WIN;
+        if (SceneManager.GetActiveScene().name.Equals("EndLevel")) {
+            SetVelocity(0);
+        }
     }
 
     public void OnCollectible() {

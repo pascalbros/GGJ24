@@ -25,6 +25,9 @@ public class GuardController: MonoBehaviour {
         agent.updatePosition = true;
         agent.updateRotation = true;
         GameManager.Instance.guards.Add(this);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        outline.OutlineMode = Outline.Mode.OutlineAll;
+#endif
     }
 
     private void Update() {
